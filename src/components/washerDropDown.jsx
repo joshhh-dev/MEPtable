@@ -7,6 +7,24 @@ import {
   SuperSpinCompassWashers,
   gen4000Washers,
 } from "../data/washingStore";
+import {
+  lagoonDryers,
+  l6000Dryers,
+  gen4000Dryers
+} from "../data/dryingStore";
+
+import { ironers } from "../data/ironersList";
+import { myProWashersAndDryers } from "../data/myProList";
+import { finishingCabinets } from "../data/finishingCabinList";
+import { formFinishers } from "../data/formFinishersList";
+import { ironingTables } from "../data/ironingTablesList";
+import { presses } from "../data/pressersList";
+import { steamBoilers } from "../data/steamBoilers";
+import { shirtFinishers } from "../data/shirtFinishersList";
+import { spottingTables } from "../data/spottingTablesList";
+import { trouserToppers } from "../data/trouserToppersList";
+import { dosingSystems } from "../data/dosingSystemList";
+
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../assets/costumButtons.css";
@@ -37,133 +55,143 @@ const style = {
   },
 };
 
-export default function WasherDropdown() {
+export default function ProductsDropdown() {
   const [selectedModel, setSelectedModel] = useState(null);
   const [machines, setMachines] = useState([]);
+  const [selectedTypes, setSelectedTypes] = useState({});
 
-  const allWashers = [
+  const allModels = [
     ...clarusVibeWashers,
     ...highSpinCompassProWashers,
     ...NormalSpinCompassWashers,
     ...SuperSpinCompassWashers,
     ...gen4000Washers,
+    ...lagoonDryers,
+    ...l6000Dryers,
+    ...gen4000Dryers,
+    ...ironers,
+    ...myProWashersAndDryers,
+    ...finishingCabinets,
+    ...formFinishers,
+    ...ironingTables,
+    ...presses,
+    ...steamBoilers,
+    ...shirtFinishers,
+    ...spottingTables,
+    ...trouserToppers,
+    ...dosingSystems,
   ];
 
-  const addMachine = () => {
-    try {
-      if (!selectedModel || !selectedModel.model) {
-        toast.warn("Please select a valid machine.");
-        return;
-      }
+  const allTypes = Array.from(
+    new Set(allModels.map((item) => item.type || item.heatSource || "Unknown"))
+  );
 
-      const exists = machines.find(
-        (m) =>
-          m.model.trim().toLowerCase() ===
-          selectedModel.model.trim().toLowerCase()
-      );
-
-      if (exists) {
-        toast.warning(`Model "${selectedModel.model}" is already selected.`);
-        return;
-      }
-
-      setMachines([...machines, { ...selectedModel, quantity: 1 }]);
-      toast.success(`Model "${selectedModel.model}" added.`);
-    } catch (error) {
-      console.error("Error adding machine:", error);
-      toast.error("Something went wrong.");
-    }
+  const handleCheckboxChange = (type) => {
+    setSelectedTypes((prev) => ({ ...prev, [type]: !prev[type] }));
   };
 
-  const removeOne = (model) => {
+  const filteredModels = allModels.filter((item) => {
+    const type = item.type || item.heatSource || "Unknown";
+    return (
+      Object.values(selectedTypes).some(Boolean) === false || selectedTypes[type]
+    );
+  });
+
+  const addMachine = () => {
+    if (!selectedModel?.model) {
+      toast.warn("Please select a valid machine.");
+      return;
+    }
+
+    const exists = machines.find(
+      (m) => m.model.trim().toLowerCase() === selectedModel.model.trim().toLowerCase()
+    );
+
+    if (exists) {
+      toast.warning(`Model "${selectedModel.model}" is already selected.`);
+      return;
+    }
+
+    setMachines([...machines, { ...selectedModel, quantity: 1 }]);
+    toast.success(`Model "${selectedModel.model}" added.`);
+  };
+
+  const adjustQuantity = (model, delta) => {
     setMachines((prev) =>
       prev
         .map((m) =>
-          m.model === model ? { ...m, quantity: m.quantity - 1 } : m
+          m.model === model ? { ...m, quantity: m.quantity + delta } : m
         )
         .filter((m) => m.quantity > 0)
     );
   };
 
-  const removeAll = (model) => {
-    setMachines((prev) => prev.filter((m) => m.model !== model));
-  };
+  const removeAll = (model) => setMachines((prev) => prev.filter((m) => m.model !== model));
 
-  const totalKg = machines.reduce(
-    (sum, m) => sum + m.capacity * m.quantity,
-    0
-  );
+  const totalKg = machines.reduce((sum, m) => sum + (m.capacity || 0) * m.quantity, 0);
 
   return (
     <div style={style.container}>
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
-      <h2 style={style.heading}>Washer Selector</h2>
+      <h2 style={style.heading}>Machine Selector</h2>
+
+      <div style={{ marginBottom: "1rem" }}>
+        {allTypes.map((type) => (
+          <label key={type} style={{ marginRight: "1rem" }}>
+            <input
+              type="checkbox"
+              checked={!!selectedTypes[type]}
+              onChange={() => handleCheckboxChange(type)}
+            />
+            {" "}{type}
+          </label>
+        ))}
+      </div>
 
       <Select
-        options={allWashers}
-        getOptionLabel={(w) => `${w.model} - ${w.heatSource}`}
-        getOptionValue={(w) => w.model}
+        styles={{ control: (base) => ({ ...base, opacity: 0.6 }) }}
+        options={filteredModels}
+        getOptionLabel={(o) => `${o.model} - ${o.heatSource || o.type || ""}`}
+        getOptionValue={(o) => o.model}
         onChange={setSelectedModel}
         classNamePrefix="custom-select"
         placeholder="Search and select model..."
       />
 
-      <button
-        className="add-btn"
-        onClick={addMachine}
-        disabled={!selectedModel}
-      >
+      <button className="add-btn" onClick={addMachine} disabled={!selectedModel}>
         Add Machine
       </button>
 
-<table className="custom-table">
-  <thead>
-    <tr>
-      <th>Model</th>
-      <th>Description</th>
-      <th>Capacity (kg)</th>
-      <th>G-Factor</th>
-      <th>Heat</th>
-      <th>Qty</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-          {machines.length > 0 ? (
+      <table className="custom-table">
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Description</th>
+            <th>Capacity (kg)</th>
+            <th>G-Factor</th>
+            <th>Heat/Type</th>
+            <th>Qty</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {machines.length ? (
             machines.map((m) => (
               <tr key={m.model}>
                 <td>{m.model}</td>
                 <td>{m.description}</td>
-                <td>{m.capacity}</td>
-                <td>{m.gFactor}</td>
-                <td>{m.heatSource}</td>
+                <td>{m.capacity || "-"}</td>
+                <td>{m.gFactor || "-"}</td>
+                <td>{m.heatSource || m.type || "-"}</td>
                 <td>{m.quantity}</td>
                 <td>
-                  <button
-                    className="quantity-btn increment-btn"
-                    onClick={() =>
-                      setMachines((prev) =>
-                        prev.map((machine) =>
-                          machine.model === m.model
-                            ? { ...machine, quantity: machine.quantity + 1 }
-                            : machine
-                        )
-                      )
-                    }
-                  >
+                  <button className="quantity-btn increment-btn" onClick={() => adjustQuantity(m.model, 1)}>
                     +
                   </button>
-
-                  <button
-                    className="quantity-btn remove-one"
-                    onClick={() => removeOne(m.model)}
-                  >
+                  <button className="quantity-btn remove-one" onClick={() => adjustQuantity(m.model, -1)}>
                     −
                   </button>
-                  <button
-                    className="quantity-btn remove-all"
-                    onClick={() => removeAll(m.model)}
-                  >
+                  <button className="quantity-btn remove-all" onClick={() => removeAll(m.model)}>
                     Remove
                   </button>
                 </td>
@@ -179,10 +207,7 @@ export default function WasherDropdown() {
         </tbody>
       </table>
 
-      <div style={style.total}>
-        Total Capacity: <span>{totalKg} kg</span>
-      </div>
-
+      <div style={style.total}>Total Capacity: <span>{totalKg} kg</span></div>
     </div>
   );
 }
