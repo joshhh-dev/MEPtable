@@ -1,0 +1,52 @@
+/* Buttons */
+.add-btn {
+  margin-top: 1rem;
+  background: #2ecc71;
+  color: #fff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.quantity-btn {
+  padding: 4px 10px;
+  margin: 0 4px;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.remove-one {
+  background-color: #f39c12;
+  color: white;
+}
+
+.remove-all {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.increment-btn {
+  background-color: #3498db;
+  color: white;
+}
+
+/* Search bar (react-select overrides) */
+.custom-select__control {
+  border-radius: 8px;
+  padding: 2px 4px;
+  border-color: #ced4da;
+  box-shadow: none;
+}
+
+.custom-select__control:hover {
+  border-color: #a5b1c2;
+}
+
+.custom-select__menu {
+  border-radius: 8px;
+  z-index: 20;
+}

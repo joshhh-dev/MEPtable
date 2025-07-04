@@ -1,11 +1,22 @@
 import React, { useState } from "react";
 import Select from "react-select";
-import { clarusVibeWashers } from "../data/washingStore";
+import {
+  clarusVibeWashers,
+  highSpinCompassProWashers,
+  NormalSpinCompassWashers,
+  SuperSpinCompassWashers,
+  gen4000Washers,
+} from "../data/washingStore";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "../assets/costumButtons.css";
+import "../assets/tableStyle.css";
+import "../assets/container.css";
 
-const styles = {
+const style = {
   container: {
-    maxWidth: "520px",
-    margin: "2rem auto",
+    maxWidth: "90%",
+    margin: "0 auto",
     padding: "1.5rem",
     background: "#fefefe",
     borderRadius: "12px",
@@ -18,47 +29,6 @@ const styles = {
     color: "#2c3e50",
     fontSize: "1.5rem",
   },
-  addBtn: {
-    marginTop: "1rem",
-    background: "#2ecc71",
-    color: "#fff",
-    border: "none",
-    padding: "10px 16px",
-    borderRadius: "8px",
-    fontSize: "1rem",
-    cursor: "pointer",
-    fontWeight: "bold",
-  },
-  table: {
-    width: "100%",
-    marginTop: "20px",
-    borderCollapse: "collapse",
-  },
-  th: {
-    textAlign: "left",
-    borderBottom: "2px solid #ccc",
-    padding: "10px",
-    backgroundColor: "#ecf0f1",
-  },
-  td: {
-    padding: "10px",
-    borderBottom: "1px solid #e0e0e0",
-  },
-  quantityBtn: {
-    padding: "4px 10px",
-    margin: "0 4px",
-    borderRadius: "4px",
-    fontWeight: "bold",
-    cursor: "pointer",
-  },
-  removeOne: {
-    backgroundColor: "#f39c12",
-    color: "white",
-  },
-  removeAll: {
-    backgroundColor: "#e74c3c",
-    color: "white",
-  },
   total: {
     textAlign: "right",
     marginTop: "20px",
@@ -67,37 +37,43 @@ const styles = {
   },
 };
 
-const customSelectStyles = {
-  control: (provided) => ({
-    ...provided,
-    borderRadius: "8px",
-    padding: "2px 4px",
-    borderColor: "#ced4da",
-    boxShadow: "none",
-    ":hover": {
-      borderColor: "#a5b1c2",
-    },
-  }),
-  menu: (provided) => ({
-    ...provided,
-    borderRadius: "8px",
-    zIndex: 20,
-  }),
-};
-
 export default function WasherDropdown() {
   const [selectedModel, setSelectedModel] = useState(null);
   const [machines, setMachines] = useState([]);
 
-const addMachine = () => {
-  if (!selectedModel) return;
+  const allWashers = [
+    ...clarusVibeWashers,
+    ...highSpinCompassProWashers,
+    ...NormalSpinCompassWashers,
+    ...SuperSpinCompassWashers,
+    ...gen4000Washers,
+  ];
 
-  const exists = machines.find((m) => m.model === selectedModel.model);
-  if (!exists) {
-    setMachines([...machines, { ...selectedModel, quantity: 1 }]);
-  }
-};
+  const addMachine = () => {
+    try {
+      if (!selectedModel || !selectedModel.model) {
+        toast.warn("Please select a valid machine.");
+        return;
+      }
 
+      const exists = machines.find(
+        (m) =>
+          m.model.trim().toLowerCase() ===
+          selectedModel.model.trim().toLowerCase()
+      );
+
+      if (exists) {
+        toast.warning(`Model "${selectedModel.model}" is already selected.`);
+        return;
+      }
+
+      setMachines([...machines, { ...selectedModel, quantity: 1 }]);
+      toast.success(`Model "${selectedModel.model}" added.`);
+    } catch (error) {
+      console.error("Error adding machine:", error);
+      toast.error("Something went wrong.");
+    }
+  };
 
   const removeOne = (model) => {
     setMachines((prev) =>
@@ -113,92 +89,100 @@ const addMachine = () => {
     setMachines((prev) => prev.filter((m) => m.model !== model));
   };
 
-  const totalKg = machines.reduce((sum, m) => sum + m.capacity * m.quantity, 0);
+  const totalKg = machines.reduce(
+    (sum, m) => sum + m.capacity * m.quantity,
+    0
+  );
 
   return (
-    <div style={styles.container}>
-      <h2 style={styles.heading}>Washer Selector</h2>
+    <div style={style.container}>
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
+      <h2 style={style.heading}>Washer Selector</h2>
 
       <Select
-        options={clarusVibeWashers}
+        options={allWashers}
         getOptionLabel={(w) => `${w.model} - ${w.heatSource}`}
         getOptionValue={(w) => w.model}
         onChange={setSelectedModel}
-        styles={customSelectStyles}
+        classNamePrefix="custom-select"
         placeholder="Search and select model..."
       />
 
       <button
-        style={styles.addBtn}
+        className="add-btn"
         onClick={addMachine}
-        disabled={!selectedModel || machines.some(m => m.model === selectedModel.model)}
+        disabled={!selectedModel}
       >
         Add Machine
       </button>
 
-
-      {machines.length > 0 && (
-        <>
-          <table style={styles.table}>
-            <thead>
-              <tr>
-                <th style={styles.th}>Model</th>
-                <th style={styles.th}>Capacity (kg)</th>
-                <th style={styles.th}>G-Factor</th>
-                <th style={styles.th}>Heat</th>
-                <th style={styles.th}>Qty</th>
-                <th style={styles.th}>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {machines.map((m) => (
-                <tr key={m.model}>
-                  <td style={styles.td}>{m.model}</td>
-                  <td style={styles.td}>{m.capacity}</td>
-                  <td style={styles.td}>{m.gFactor}</td>
-                  <td style={styles.td}>{m.heatSource}</td>
-                  <td style={styles.td}>{m.quantity}</td>
-                  <td style={styles.td}>
+<table className="custom-table">
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Description</th>
+      <th>Capacity (kg)</th>
+      <th>G-Factor</th>
+      <th>Heat</th>
+      <th>Qty</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+          {machines.length > 0 ? (
+            machines.map((m) => (
+              <tr key={m.model}>
+                <td>{m.model}</td>
+                <td>{m.description}</td>
+                <td>{m.capacity}</td>
+                <td>{m.gFactor}</td>
+                <td>{m.heatSource}</td>
+                <td>{m.quantity}</td>
+                <td>
                   <button
-                    style={{ ...styles.quantityBtn, backgroundColor: "#3498db", color: "#fff" }}
-                    onClick={() => {
+                    className="quantity-btn increment-btn"
+                    onClick={() =>
                       setMachines((prev) =>
                         prev.map((machine) =>
                           machine.model === m.model
                             ? { ...machine, quantity: machine.quantity + 1 }
                             : machine
                         )
-                      );
-                    }}
+                      )
+                    }
                   >
                     +
                   </button>
 
-                    <button
-                      style={{ ...styles.quantityBtn, ...styles.removeOne }}
-                      onClick={() => removeOne(m.model)}
-                    >
-                      −
-                    </button>
-                    <button
-                      style={{ ...styles.quantityBtn, ...styles.removeAll }}
-                      onClick={() => removeAll(m.model)}
-                    >
-                      Remove
-                    </button>
-                  </td>
+                  <button
+                    className="quantity-btn remove-one"
+                    onClick={() => removeOne(m.model)}
+                  >
+                    −
+                  </button>
+                  <button
+                    className="quantity-btn remove-all"
+                    onClick={() => removeAll(m.model)}
+                  >
+                    Remove
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="7" style={{ textAlign: "center", padding: "20px" }}>
+                No machines selected.
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
 
-                </tr>
-              ))
-              }
-            </tbody>
-          </table>
+      <div style={style.total}>
+        Total Capacity: <span>{totalKg} kg</span>
+      </div>
 
-          <div style={styles.total}>
-            Total Capacity: <span>{totalKg} kg</span>
-          </div>
-        </>
-      )}
     </div>
   );
 }

@@ -1,0 +1,21 @@
+  .container{
+    max-width: "520px";
+    margin: "2rem auto";
+    padding: "1.5rem";
+    background: "#fefefe";
+    border-radius: "12px";
+    box-shadow: "0 4px 16px rgba(0,0,0,0.08)";
+    font-family: "'Segoe UI', sans-serif";
+    color: "#333";
+  }
+  .heading {
+    margin-bottom: "1rem";
+    color: "#2c3e50";
+    font-size: "1.5rem";
+  }
+  .total {
+    text-align: "right";
+    margin-top: "20px";
+    font-weight: "bold";
+    color: "#2980b9";
+  }
