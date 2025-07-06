@@ -33,7 +33,7 @@ import "../assets/container.css";
 
 const style = {
   container: {
-    maxWidth: "90%",
+    maxWidth: "100%",
     margin: "0 auto",
     padding: "1.5rem",
     background: "#fefefe",
@@ -83,7 +83,7 @@ export default function ProductsDropdown() {
   ];
 
   const allTypes = Array.from(
-    new Set(allModels.map((item) => item.type || item.heatSource || "Unknown"))
+    new Set(allModels.map((item) => item.category || item.type || item.heatSource || "Dosing System"))
   );
 
   const handleCheckboxChange = (type) => {
@@ -91,7 +91,7 @@ export default function ProductsDropdown() {
   };
 
   const filteredModels = allModels.filter((item) => {
-    const type = item.type || item.heatSource || "Unknown";
+    const type = item.category || item.type || item.heatSource || "Dosing System";
     return (
       Object.values(selectedTypes).some(Boolean) === false || selectedTypes[type]
     );
@@ -110,7 +110,7 @@ export default function ProductsDropdown() {
     if (exists) {
       toast.warning(`Model "${selectedModel.model}" is already selected.`);
       return;
-    }
+    } else
 
     setMachines([...machines, { ...selectedModel, quantity: 1 }]);
     toast.success(`Model "${selectedModel.model}" added.`);
@@ -149,9 +149,14 @@ export default function ProductsDropdown() {
       </div>
 
       <Select
-        styles={{ control: (base) => ({ ...base, opacity: 0.6 }) }}
+        styles={{ control: (base, state) => ({ 
+          ...base,
+          opacity: state.isFocused ? 0.5 : 1,  
+          transition: "opacity 0.2s ease-in-out"
+        }),
+       }}
         options={filteredModels}
-        getOptionLabel={(o) => `${o.model} - ${o.heatSource || o.type || ""}`}
+        getOptionLabel={(o) => `${o.model} - ${o.category || ""} - ${o.type || o.heatSource}`}
         getOptionValue={(o) => o.model}
         onChange={setSelectedModel}
         classNamePrefix="custom-select"
@@ -170,8 +175,12 @@ export default function ProductsDropdown() {
             <th>Capacity (kg)</th>
             <th>G-Factor</th>
             <th>Heat/Type</th>
+            <th>Width(cm)</th>
+            <th>Depth(cm)</th>
+            <th>Height(cm)</th>
+            <th>Weight(kg)</th>
             <th>Qty</th>
-            <th>Actions</th>
+            {/* <th>Actions</th> */}
           </tr>
         </thead>
         <tbody>
@@ -183,6 +192,10 @@ export default function ProductsDropdown() {
                 <td>{m.capacity || "-"}</td>
                 <td>{m.gFactor || "-"}</td>
                 <td>{m.heatSource || m.type || "-"}</td>
+                <td>{m.width}</td>
+                <td>{m.depth}</td>
+                <td>{m.height}</td>
+                <td>{m.weight}</td>
                 <td>{m.quantity}</td>
                 <td>
                   <button className="quantity-btn increment-btn" onClick={() => adjustQuantity(m.model, 1)}>

@@ -1,8 +1,8 @@
 import React from 'react';
-import ProductsDropdown from './components/washerDropDown';
+import ProductsDropdown from './components/machinesDropDown';
 function App() {
   return (
-    <div style={{ padding: '50px'}}>
+    <div style={{ padding: '60px'}}>
       <ProductsDropdown />
     </div>
 

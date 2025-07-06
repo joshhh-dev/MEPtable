@@ -1,5 +1,5 @@
 export const dosingSystems = [
-  { model: "Dosave", description: "EFFICIENT DOSING SYSTEM PERISTALTIC PUMPS CLARUS VIBE", type: "", capacity: "" },
+  { model: "Dosave", description: "EFFICIENT DOSING SYSTEM PERISTALTIC PUMPS CLARUS VIBE", type: "", capacity: ""},
   { model: "ED Venturi HF", description: "EFFICIENT DOSING SYSTEM VENTURI PUMPS COMPASS PRO", type: "", capacity: "" },
   { model: "ED Venturi LF", description: "EFFICIENT DOSING SYSTEM VENTURI PUMPS COMPASS PRO", type: "", capacity: "" },
   { model: "EDS", description: "EFFICIENT DOSING SYSTEM PERISTALTIC PUMPS COMPASS PRO", type: "", capacity: "" },
