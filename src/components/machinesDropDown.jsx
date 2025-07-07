@@ -83,7 +83,7 @@ export default function ProductsDropdown() {
   ];
 
   const allTypes = Array.from(
-    new Set(allModels.map((item) => item.category || item.type || item.heatSource || "Dosing System"))
+    new Set(allModels.map((item) => item.category || item.heatSource ))
   );
 
   const handleCheckboxChange = (type) => {
@@ -91,7 +91,7 @@ export default function ProductsDropdown() {
   };
 
   const filteredModels = allModels.filter((item) => {
-    const type = item.category || item.type || item.heatSource || "Dosing System";
+    const type = item.category || item.heatSource;
     return (
       Object.values(selectedTypes).some(Boolean) === false || selectedTypes[type]
     );
@@ -174,7 +174,7 @@ export default function ProductsDropdown() {
             <th>Description</th>
             <th>Capacity (kg)</th>
             <th>G-Factor</th>
-            <th>Heat/Type</th>
+            <th>Main heating power</th>
             <th>Width(cm)</th>
             <th>Depth(cm)</th>
             <th>Height(cm)</th>
@@ -212,7 +212,7 @@ export default function ProductsDropdown() {
             ))
           ) : (
             <tr>
-              <td colSpan="7" style={{ textAlign: "center", padding: "20px" }}>
+              <td colSpan="11" style={{ textAlign: "center", padding: "20px" }}>
                 No machines selected.
               </td>
             </tr>
