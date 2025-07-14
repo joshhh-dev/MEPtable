@@ -1,17 +1,107 @@
 .custom-table {
   width: 100%;
-  margin-top: 20px;
   border-collapse: collapse;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  table-layout: fixed;
+  background: #fff;
+  border: 1px solid #ccc;
+  margin-bottom: 2rem;
+}
+
+.custom-table thead {
+  background-color: #f4f6f9;
+}
+
+.custom-table th,
+.custom-table td {
+  padding: 10px 12px;
+  text-align: center;
+  border: 1px solid #e0e0e0;
+  word-wrap: break-word;
 }
 
 .custom-table th {
-  text-align: left;
-  border-bottom: 2px solid #ccc;
-  padding: 10px;
-  background-color: #ecf0f1;
+  font-weight: 600;
+  color: #333;
 }
 
-.custom-table td {
-  padding: 10px;
-  border-bottom: 1px solid #e0e0e0;
+.custom-table .section-header {
+  background-color: #e9ecef;
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+  text-align: left;
+  padding: 12px;
+  border: 1px solid #ccc;
+}
+
+.custom-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.quantity-btn {
+  background-color: #007bff;
+  color: #fff;
+  padding: 4px 8px;
+  margin: 0 2px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.quantity-btn.remove-one {
+  background-color: #ffc107;
+}
+
+.quantity-btn.remove-all {
+  background-color: #dc3545;
+}
+
+.quantity-btn:hover {
+  opacity: 0.85;
+}
+
+@media screen and (max-width: 768px) {
+  .custom-table {
+    font-size: 12px;
+  }
+
+  .custom-table th,
+  .custom-table td {
+    padding: 6px 8px;
+  }
+
+  .section-header {
+    font-size: 14px;
+  }
+}
+
+.tab-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
+.tab-buttons button {
+  padding: 8px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #f8f9fa;
+  cursor: pointer;
+  font-weight: bold;
+  color: #333;
+  transition: background-color 0.2s;
+}
+
+.tab-buttons button.active {
+  background-color: #0d6efd;
+  color: #fff;
+  border-color: #0d6efd;
+}
+
+.tab-buttons button:hover {
+  background-color: #e2e6ea;
 }
