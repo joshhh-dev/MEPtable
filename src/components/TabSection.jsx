@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function TabSection({ activeTab, machines, adjustQuantity, removeAll, showAll = false }) {
+export default function TabSection({ activeTab, machines, showAll = false }) {
   if (!machines.length) return null;
 
   const sectionOrder = ["basic", "electricity", "gas", "water", "drain", "exhaust", "air"];
@@ -74,7 +74,7 @@ const renderSummarySidebar = () => (
   <div className="summary-sidebar" style={{ maxWidth: "400px", flex: "0 0 auto", marginBottom: "2rem" }}>
     <table className="custom-table">
       <thead>
-        <tr><th colSpan="2" className="section-header">🧾 Summary</th></tr>
+        <tr><th colSpan="2" className="section-header">🧾 Total Costing</th></tr>
       </thead>
       <tbody>
         {machines.map((m) => {
@@ -177,16 +177,7 @@ const renderSummarySidebar = () => (
             const cost = calculateCostPerLoad(m);
             return `${cost.toFixed(2)} PHP`;
           }),
-          {
-            label: "Actions",
-            values: machines.map((m) => (
-              <div key={m.model}>
-                <button className="quantity-btn increment-btn" onClick={() => adjustQuantity(m.model, 1)}>+</button>
-                <button className="quantity-btn remove-one" onClick={() => adjustQuantity(m.model, -1)}>−</button>
-                <button className="quantity-btn remove-all" onClick={() => removeAll(m.model)}>Remove</button>
-              </div>
-            ))
-          }
+
         ]
       },
      electricity: {

@@ -32,6 +32,18 @@ const style = {
   },
 };
 
+  const thStyle = {
+  padding: "6px",
+  textAlign: "left",
+  borderBottom: "1px solid #ccc",
+  fontWeight: "600"
+};
+
+const tdStyle = {
+  padding: "6px",
+  textAlign: "left"
+};
+
 export default function ProductsDropdown() {
   const [selectedModel, setSelectedModel] = useState(null);
   const [machines, setMachines] = useState([]);
@@ -94,6 +106,9 @@ export default function ProductsDropdown() {
     );
   };
 
+
+
+
   const removeAll = (model) => {
     if (!model) return;
     setMachines((prev) => prev.filter((m) => m.model !== model));
@@ -147,29 +162,85 @@ export default function ProductsDropdown() {
       </button>
 
       <div className="summary-layout" style={{ display: "flex", flexWrap: "wrap", gap: "2rem", marginTop: "2rem" }}>
-        <div className="sidebar-summary" style={{ width: "100%", maxWidth: "320px", flex: 1 }}>
-          <h3>🔍 Summary</h3>
-          {machines.length > 0 ? (
-            <>
-              <p><strong>🧺 Total Capacity:</strong> {totalKg} kg</p>
-              <p><strong>⚖️ Total Weight:</strong> {totalWeight} kg</p>
-              <p><strong>📏 Total Height:</strong> {totalHeight} cm</p>
-              <p><strong>📐 Total Depth:</strong> {totalDepth} cm</p>
-            </>
-          ) : (
-            <p style={{ color: "#888" }}>No machines selected yet.</p>
-          )}
+<div className="sidebar-summary" style={{ width: "100%", maxWidth: "320px", flex: 1 }}>
+  <h3>🔍 Summary</h3>
 
-          <hr />
-          <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
-            <button className="add-btn" onClick={() => setShowAll(!showAll)} style={{ flex: 1 }} disabled={machines.length === 0} title="Toggle between showing and hiding all machine details">
-              {showAll ? "Hide Details" : "Show All Details"}
-            </button>
-            <button className="add-btn" onClick={() => PDFGenerator(machines)} disabled={machines.length === 0} style={{ flex: 1 }} title="Download selected machines as PDF">
-              Export to PDF
-            </button>
-          </div>
-        </div>
+  {machines.length > 0 ? (
+    <>
+      <h4>🧺 Selected Machines</h4>
+      <div style={{ overflowX: "auto" }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.85rem" }}>
+          <thead>
+            <tr style={{ backgroundColor: "#f0f0f0" }}>
+              <th style={thStyle}>Model</th>
+              <th style={thStyle}>Qty</th>
+              <th style={thStyle}>Cap (kg)</th>
+              <th style={thStyle}>Heat</th>
+            </tr>
+          </thead>
+          <tbody>
+            {machines.map((m, i) => (
+              <tr key={i} style={{ borderBottom: "1px solid #ddd" }}>
+                <td style={tdStyle}>{m.model}</td>
+                <td style={tdStyle}>{m.quantity}</td>
+                <td style={tdStyle}>{m.capacity}</td>
+                <td style={tdStyle}>{m.heatSource}</td>
+                <td style={tdStyle}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
+                    <span>{m.quantity}</span>
+                    <button className="quantity-btn increment-btn" onClick={() => adjustQuantity(m.model, 1)} title="Increase quantity">+</button>
+                    <button className="quantity-btn remove-one" onClick={() => adjustQuantity(m.model, -1)} title="Decrease quantity">−</button>
+                    <button className="quantity-btn remove-all" onClick={() => removeAll(m.model)} title="Remove machine">✕</button>
+                  </div>
+                </td>
+
+              </tr>
+              
+            ))
+            
+            
+            }
+            
+          </tbody>
+        </table>
+      </div>
+
+      <div style={{ marginTop: "1rem" }}>
+        <p><strong>🧮 Total Machines:</strong> {machines.reduce((sum, m) => sum + (m.quantity || 0), 0)}</p>
+        <p><strong>🧺 Total Capacity:</strong> {totalKg} kg</p>
+        <p><strong>⚖️ Total Weight:</strong> {totalWeight} kg</p>
+        <p><strong>📏 Total Height:</strong> {totalHeight} cm</p>
+        <p><strong>📐 Total Depth:</strong> {totalDepth} cm</p>
+      </div>
+    </>
+  ) : (
+    <p style={{ color: "#888" }}>No machines selected yet.</p>
+  )}
+
+  <hr />
+  <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+    <button
+      className="add-btn"
+      onClick={() => setShowAll(!showAll)}
+      style={{ flex: 1 }}
+      disabled={machines.length === 0}
+      title="Toggle between showing and hiding all machine details"
+    >
+      {showAll ? "Hide Details" : "Show All Details"}
+    </button>
+    <button
+      className="add-btn"
+      onClick={() => PDFGenerator(machines)}
+      disabled={machines.length === 0}
+      style={{ flex: 1 }}
+      title="Download selected machines as PDF"
+    >
+      Export to PDF
+    </button>
+  </div>
+</div>
+
+
 
         <div className="main-display" style={{ flex: 2, minWidth: 0 }}>
           {showAll && (
