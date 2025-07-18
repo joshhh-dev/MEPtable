@@ -91,3 +91,13 @@
 .add-btn:hover {
   background-color: #0056b3;
 }
+@media (max-width: 768px) {
+  .summary-layout {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .sidebar-summary {
+    width: 100% !important;
+  }
+}

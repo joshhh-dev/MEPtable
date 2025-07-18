@@ -1,5 +1,6 @@
 /* Buttons */
 .add-btn {
+    width: 250px;      /* or whatever fixed width you want */
   margin-top: 1rem;
   background: #2ecc71;
   color: #fff;
@@ -9,7 +10,22 @@
   font-size: 1rem;
   cursor: pointer;
   font-weight: bold;
+
 }
+
+/* Add to costumButtons.css */
+.add-btn.small {
+  background: #2ecc71;
+  color: #fff;
+  border: none;
+  padding: 10px 16px ;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  width: 250px;
+}
+
 
 .quantity-btn {
   padding: 4px 10px;
@@ -40,6 +56,7 @@
   padding: 2px 4px;
   border-color: #ced4da;
   box-shadow: none;
+  width: 250px;
 }
 
 .custom-select__control:hover {
