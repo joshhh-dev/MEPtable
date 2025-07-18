@@ -1,11 +1,7 @@
 {
-  "name": "mep_table",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-
+  "name": "MEPtable",
+  "version": "1.0.0",
   "homepage": "https://joshhh-dev.github.io/MEPtable",
-
   "scripts": {
     "dev": "vite",
     "build": "vite build",
