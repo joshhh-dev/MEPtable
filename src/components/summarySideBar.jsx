@@ -1,13 +1,9 @@
 import React from "react";
+import "../assets/container.css"; // Assuming you have a CSS file for styling
 
 const SummarySidebar = ({ machines, electricity, gas, coldWater, hotWater, grandTotal, calculateCostPerLoad }) => {
   return (
-    <div className="summary-sidebar" 
-    style={{ 
-      maxWidth: "400px", 
-      flex: "0 0 auto", 
-      marginBottom: "2rem" 
-      }}>
+    <div className="summary-sidebar">
       <table className="custom-table">
         <thead>
           <tr><th colSpan="2" className="section-header">🧾 Total Costing</th></tr>

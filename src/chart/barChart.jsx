@@ -215,7 +215,7 @@ const gasData = {
       title: {
         display: true,
         text: "Electric Cost Projection",
-        font: { weight: "bold" },
+        font: { weight: "bold", size: 18 },
       },
       tooltip: {
         callbacks: {
