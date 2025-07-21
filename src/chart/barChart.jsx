@@ -44,7 +44,7 @@ const BarChartComponent = ({ machines }) => {
   // === Gas ===
   const costGasDay = machines.map((m) => {
     const btu = getNumber(m.gasBTU);
-    const kgsPerHour = (btu / 47654.20) * 0.6 * 0.17;
+    const kgsPerHour = (btu / 47654.20) * 0.6; // Convert BTU to kg/hr
     return kgsPerHour * getQty(m) * 80 * 12;
   });
   const costGasMonth = costGasDay.map((c) => c * 30);

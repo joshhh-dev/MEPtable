@@ -21,22 +21,40 @@ const SummarySidebar = ({ machines, calculateCostPerLoad }) => {
 
   return (
     <div className="summary-sidebar" style={{ padding: "1rem", maxWidth: "100%", overflowX: "auto" }}>
-      {/* Operating Hours Dropdown */}
-      <div style={{ marginBottom: "1rem", display: "flex", flexWrap: "wrap", alignItems: "center" }}>
-        <label htmlFor="hours" style={{ marginRight: "0.5rem", fontWeight: "bold", minWidth: "130px" }}>
+      {/* Operating Hours Userinput */}
+      <div
+        style={{
+          marginBottom: "1rem",
+          display: "flex",
+          flexWrap: "wrap",
+          alignItems: "center",
+        }}
+      >
+        <label
+          htmlFor="hours"
+          style={{
+            marginRight: "0.5rem",
+            fontWeight: "bold",
+            minWidth: "130px",
+          }}
+        >
           Operating Hours:
         </label>
-        <select
+        <input
+          type="number"
           id="hours"
           value={hours}
           onChange={handleHourChange}
-          style={{ padding: "0.25rem", minWidth: "100px" }}
-        >
-          <option value={12}>12 hrs</option>
-          <option value={16}>16 hrs</option>
-          <option value={24}>24 hrs</option>
-        </select>
+          style={{
+            padding: "0.25rem",
+            minWidth: "100px",
+          }}
+          min={1}
+          max={24}
+          step={1}
+        />
       </div>
+
 
       {/* Cost Table */}
       <div style={{ overflowX: "auto" }}>
@@ -53,7 +71,7 @@ const SummarySidebar = ({ machines, calculateCostPerLoad }) => {
               const elecCost = elecUsage * 12;
 
               const gasBTU = parseFloat(m.gasBTU) || 0;
-              const kgsPerHour = (gasBTU / 47654.2) * 0.6 * 0.75;
+              const kgsPerHour = (gasBTU / 47654.2) * 0.6; // Convert BTU to kg/hr
               const gasUsage = kgsPerHour * qty * hours;
               const gasCost = gasUsage * 80;
 

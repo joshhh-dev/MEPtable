@@ -132,7 +132,7 @@ const calculateCostPerLoad = (machine) => {
   const elecCost = elecUsage * 12;
 
   const gasBTU = parseFloat(machine.gasBTU) || 0;
-  const kgsPerHour = (gasBTU / 47654.2) * 0.6 * 0.17;
+  const kgsPerHour = (gasBTU / 47654.2) * 0.6;
   const gasCost = kgsPerHour * qty * 80;
 
   const cold = parseFloat(machine.coldWater?.waterConsump) || 0;
