@@ -259,13 +259,15 @@ const grandTotal =
         styles={{
           control: (base, state) => ({
             ...base,
-            width: '450px',
+            width: "100%",
+            maxWidth: '450px',
             opacity: state.isFocused ? 0.5 : 1,
             transition: "opacity 0.2s ease-in-out",
           }),
             menu: (base) => ({
           ...base,
-          width: '450px',
+        width: '100%',
+        maxWidth: '450px',
           maxHeight: '400px',
           overflowY: 'auto',
           fontSize: '0.85rem',

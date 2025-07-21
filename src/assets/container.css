@@ -120,7 +120,8 @@
 /* container.css or SummarySidebar.css */
 
 .summary-sidebar {
-  position: absolute;
+  position: fixed;
+  flex-direction: column;
   top: 4rem;
   left: 50%;
   transform: translateX(-45%);
@@ -138,6 +139,7 @@
 
 .custom-table {
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
   font-size: 0.85rem;
 }
@@ -146,6 +148,7 @@
 .custom-table td {
   padding: 6px;
   text-align: left;
+  word-break: break-word;
 }
 
 .section-header {
