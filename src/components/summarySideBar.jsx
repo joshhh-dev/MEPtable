@@ -38,7 +38,7 @@ const SummarySidebar = ({ machines, calculateCostPerLoad }) => {
             minWidth: "130px",
           }}
         >
-          Operating Hours:
+          Operating Hours per Day:
         </label>
         <input
           type="number"
@@ -61,7 +61,7 @@ const SummarySidebar = ({ machines, calculateCostPerLoad }) => {
         <table className="custom-table" style={{ width: "100%", minWidth: "350px", fontSize: "0.9rem" }}>
           <thead>
             <tr>
-              <th colSpan="2" className="section-header">🧾 Total Costing</th>
+              <th colSpan="2" className="section-header">Total Costing</th>
             </tr>
           </thead>
           <tbody>
@@ -102,7 +102,7 @@ const SummarySidebar = ({ machines, calculateCostPerLoad }) => {
                 <React.Fragment key={`summary-${m.model}`}>
                   <tr>
                     <td colSpan="2" style={{ fontWeight: "bold", borderTop: "2px solid #aaa", paddingTop: "8px" }}>
-                      🧺 {m.model} (x{qty})
+                       {m.model} (x{qty})
                     </td>
                   </tr>
                   <tr><td>Electricity</td><td>{elecUsage.toFixed(2)} kW → ₱{elecCost.toFixed(2)}</td></tr>
