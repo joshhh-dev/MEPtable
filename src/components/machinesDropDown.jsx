@@ -231,13 +231,13 @@ const grandTotal =
   //   }, 100); // slight delay to allow DOM to update
   // };
   // 🔍 DEBUG: Check what's available
-  console.log("🔍 All Machines:", allMachines);
-  console.log("🧺 Washer Models (WP):", allMachines.filter(m => m.model?.startsWith("WP")));
-  console.log("📦 Categories Found:", [...new Set(allMachines.map(m => m.category))]);
-  console.log("🔥 Heat Sources Found:", [...new Set(allMachines.map(m => m.heatSource))]);
-  console.log("✅ Selected Types (Filters):", selectedHeatSources, selectedCategories);
-  console.log("🧾 Filtered Models:", filteredModels);
-  console.log("📊 Grouped Options for Select:", groupedOptions);
+  console.log("All Machines:", allMachines);
+  console.log("Washer Models (WP):", allMachines.filter(m => m.model?.startsWith("WP")));
+  console.log("Categories Found:", [...new Set(allMachines.map(m => m.category))]);
+  console.log("Heat Sources Found:", [...new Set(allMachines.map(m => m.heatSource))]);
+  console.log("Selected Types (Filters):", selectedHeatSources, selectedCategories);
+  console.log("Filtered Models:", filteredModels);
+  console.log("Grouped Options for Select:", groupedOptions);
 
 
   return (
@@ -282,7 +282,7 @@ const grandTotal =
       <button className="add-btn small" onClick={addMachine} disabled={!selectedModel} title="Add the selected machine to the list">
         Add Machine
       </button>
-  <h4 style={{ marginBottom: "0.5rem", color: "#2c3e50" }}>📦 Filter by Category</h4>
+  <h4 style={{ marginBottom: "0.5rem", color: "#2c3e50" }}>Filter by Category</h4>
   <div style={{
     display: "flex",
     width: "450px",
@@ -380,11 +380,11 @@ const grandTotal =
 
 
 <div className="top-right">
-  <h3>🔍 Summary</h3>
+  <h3>Summary</h3>
   {machines.length > 0 ? (
     
     <>
-<h4>🧺 Selected Machines</h4>
+<h4>Selected Machines</h4>
 <div style={{ overflowX: "auto" }}>
   <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "0.85rem" }}>
     <thead>
@@ -437,11 +437,11 @@ const grandTotal =
   
         
       <div style={{ marginTop: "1rem" }}>
-        <p><strong>🧮 Total Machines:</strong> {machines.reduce((sum, m) => sum + (m.quantity || 0), 0)}</p>
-        <p><strong>🧺 Total Capacity:</strong> {totalKg} kg</p>
-        <p><strong>⚖️ Total Weight:</strong> {totalWeight} kg</p>
-        <p><strong>📏 Total Height:</strong> {totalHeight} cm</p>
-        <p><strong>📐 Total Depth:</strong> {totalDepth} cm</p>
+        <p><strong>Total Machines:</strong> {machines.reduce((sum, m) => sum + (m.quantity || 0), 0)}</p>
+        <p><strong>Total Capacity:</strong> {totalKg} kg</p>
+        <p><strong>Total Weight:</strong> {totalWeight} kg</p>
+        <p><strong>Total Height:</strong> {totalHeight} cm</p>
+        <p><strong>Total Depth:</strong> {totalDepth} cm</p>
       </div>
 
     </>
@@ -579,7 +579,7 @@ const grandTotal =
                     flexWrap: "wrap",
                     }}
                   >
-                    📊 Cost Projection
+                    Cost Projection
                   </h2>
                 </div>
                   <div

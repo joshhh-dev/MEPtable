@@ -45,7 +45,7 @@ export default function TabSection({ activeTab, machines, showAll = false }) {
 
     let gasCost = 0;
     if (machine.gasBTU) {
-      const kgsPerHour = (machine.gasBTU / 47654.2) * 0.6 * 0.17;
+      const kgsPerHour = (machine.gasBTU / 47654.2) * 0.6;
       gasCost = kgsPerHour * 80;
     }
 
@@ -107,36 +107,36 @@ export default function TabSection({ activeTab, machines, showAll = false }) {
           buildRow("Height (cm)", m => m.height || "-"),
           buildRow("Weight (kg)", m => m.weight || "-"),
           buildRow("Qty", m => m.quantity || "-"),
-          buildRow("💵 Cost/Load", (m) => {
+          buildRow( <strong>Cost/Load</strong>, (m) => {
             const cost = calculateCostPerLoad(m);
-            return `${cost.toFixed(2)} PHP`;
+            return <strong>{cost.toFixed(2)} PHP</strong>;
           }),
 
         ]
       },
      electricity: {
-        header: "⚡ Electricity",
+        header: "Electricity",
         rows: [
-          buildRow("Voltage", m => m.voltage || "-"),
+          buildRow("Voltage/Frequency/Phase", m => m.voltage || "-"),
           buildRow("Load (kW)", m => m.load || "-"),
           buildRow("Fuse (A)", m => m.recommendedFuse || "-"),
-          buildRow("Conn. Height", m => m.connectionHeight || "-"),
-          buildRow("Supply Height", m => m.supplyHeight || "-"),
+          buildRow("Conn. Height(mm)", m => m.connectionHeight || "-"),
+          buildRow("Supply Height(cm)", m => m.supplyHeight || "-"),
           buildRow("Connection Type", m => m.connectionType || "-"),
           {
-            label: "💰 Total Electricity Cost",
+            label: <strong>Total Electricity Cost</strong>,
             values: machines.map((m) => {
               const usage = parseFloat(m.load) || 0;
               const qty = m.quantity || 0;
               const rate = 12;
               const total = (usage * qty) * rate;
-              return `${total.toFixed(2)} PHP`;
+              return <strong>{total.toFixed(2)} PHP</strong>;
             })
           }
         ]
       },
       gas: {
-        header: "🔥 Gas",
+        header: "Gas",
         rows: [
           buildRow("Load (kW)", m => m.gasLoad || "-"),
           buildRow("Diameter", m => m.diameter || "-"),
@@ -146,19 +146,19 @@ export default function TabSection({ activeTab, machines, showAll = false }) {
           buildRow("Supply Height", m => m.gasSupplyHeight || "-"),
           buildRow("BTU/hr", m => m.gasBTU || "-"),
           {
-            label: "💰 Total Gas Cost",
+            label: <strong>Total Gas Cost</strong>, 
             values: machines.map((m) => {              
               const qty = m.quantity || 0;
-              const kgsPerHour = m.gasBTU/47654.20 * 0.6 * 0.17;
+              const kgsPerHour = m.gasBTU/47654.20 * 0.6;
               const rate = 80;
               const total = kgsPerHour * qty * rate;
-              return `${total.toFixed(2)} PHP`;
+              return <strong>{total.toFixed(2)} PHP</strong>;
             })
           }
         ]
       },
       drain: {
-        header: "🕳️ Drain",
+        header: "Drain",
         rows: [
           buildRow("Diameter", m => m.drain?.diameter || "-"),
           buildRow("Conn. Height", m => m.drain?.connectionHeight || "-"),
@@ -166,7 +166,7 @@ export default function TabSection({ activeTab, machines, showAll = false }) {
         ]
       },
       exhaust: {
-        header: "💨 Exhaust",
+        header: "Exhaust",
         rows: [
           buildRow("Diameter (mm)", m => m.diameterFlow || "-"),
           buildRow("Pressure Drop (Pa)", m => m.pressureDrop || "-"),
@@ -185,7 +185,7 @@ export default function TabSection({ activeTab, machines, showAll = false }) {
         <>
           <table className="custom-table" style={{ marginBottom: "1rem" }}>
             <thead>
-              <tr><th className="section-header">💧 Cold Water</th>
+              <tr><th className="section-header">Cold Water</th>
                 {machines.map((m) => <th key={m.model}>{m.model}</th>)}
               </tr>
             </thead>
@@ -197,7 +197,7 @@ export default function TabSection({ activeTab, machines, showAll = false }) {
                 </tr>
               ))}
               <tr>
-                <td><strong>💰 Total Cold Water Cost</strong></td>
+                <td><strong>Total Cold Water Cost</strong></td>
                 {machines.map((m, j) => {
                   const usage = parseFloat(m.coldWater?.waterConsump) || 0;
                   const qty = m.quantity || 0;
@@ -208,11 +208,12 @@ export default function TabSection({ activeTab, machines, showAll = false }) {
                 })}
               </tr>
             </tbody>
+
           </table>
 
           <table className="custom-table">
             <thead>
-              <tr><th className="section-header">🔥 Hot Water</th>
+              <tr><th className="section-header">Hot Water</th>
                 {machines.map((m) => <th key={m.model}>{m.model}</th>)}
               </tr>
             </thead>
@@ -224,20 +225,47 @@ export default function TabSection({ activeTab, machines, showAll = false }) {
                 </tr>
               ))}
               <tr>
-                <td><strong>💰 Total Hot Water Cost</strong></td>
+                <td><strong>Total Hot Water Cost</strong></td>
                 {machines.map((m, j) => {
                   const usage = parseFloat(m.hotWater?.waterConsump) || 0;
                   const qty = m.quantity || 0;
                   const toCubeM = usage / 1000;
                   const rate = 50;
-                  const total = toCubeM * qty * rate;
-                  return <td key={j}><strong>{total.toFixed(2)} PHP</strong></td>;
+                  const total = toCubeM * qty * rate || 0;
+                  return <td key={j}><strong>{total.toFixed(2)}PHP</strong></td>;
                 })}
               </tr>
+
+            </tbody>
+
+      
+          </table>
+          <table className="custom-table">
+            <tbody>
+                      <tr>
+          <td className="section-header"><strong>Total Water Cost</strong></td>
+          {machines.map((m, j) => {
+            const coldUsage = parseFloat(m.coldWater?.waterConsump) || 0;
+            const hotUsage = parseFloat(m.hotWater?.waterConsump) || 0;
+            const qty = m.quantity || 0;
+            const totalColdCost = (coldUsage / 1000) * qty * 50;
+            const totalHotCost = (hotUsage / 1000) * qty * 50;
+            const totalCost = totalColdCost + totalHotCost;
+            return (
+              <td key={j}>
+                <strong>{totalCost.toFixed(2)} PHP</strong>
+              </td>
+            );
+          })}
+        </tr>
+
             </tbody>
           </table>
         </>
+        
       )
+
+      
         };
 
     return sections[tab] || null;

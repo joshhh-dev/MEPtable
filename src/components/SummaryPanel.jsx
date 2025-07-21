@@ -20,7 +20,7 @@ const SummaryPanel = ({ machines, exportToExcel }) => (
     boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
     zIndex: 10,
   }}>
-    <h3>🔍 Summary</h3>
+    <h3>Summary</h3>
     {machines.length > 0 ? (
       <>
         <table style={{ width: "100%", fontSize: "0.85rem", marginBottom: "1rem" }}>
