@@ -96,7 +96,7 @@ export default function TabSection({ activeTab, machines, showAll = false }) {
 
     const sections = {
       basic: {
-        header: "🧺 Machine Specifications",
+        header: "Machine Specifications",
         rows: [
           buildRow("Description", m => m.description || "-"),
           buildRow("Capacity (kg)", m => m.capacity || "-"),
@@ -174,7 +174,7 @@ export default function TabSection({ activeTab, machines, showAll = false }) {
         ]
       },
       air: {
-        header: "🪫 Compressed Air",
+        header: "Compressed Air",
         rows: [
           buildRow("Load (L/min)", m => m.airLoad || "-"),
           buildRow("Pressure (kPa)", m => m.airPressure || "-"),

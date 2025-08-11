@@ -489,7 +489,7 @@ const grandTotal =
 </div>
       <div className="summary-layout" 
       style={{   
-          display: "flex",
+          display: "container",
           flexWrap: "wrap",
           alignItems: "flex-start",
           justifyContent: "space-between",
@@ -503,7 +503,8 @@ const grandTotal =
 
 
   <hr />
-  <div style={{       
+  <div style={{   
+      display: "flex",    
         flex: "1 1 100%",
         maxWidth: "100%",
         minWidth: "280px", 
